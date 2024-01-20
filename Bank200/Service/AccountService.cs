@@ -1,5 +1,6 @@
 ﻿using Bank200.Account;
 using Bank200.Database;
+using Bank200.Exceptions;
 
 namespace Bank200.Service
 {
@@ -27,24 +28,53 @@ namespace Bank200.Service
         {
             if (amountToDeposit < 1000)
             {
-                throw new NullReferenceException("Deposit amount may not be less than R1000");
+                throw new ArgumentOutOfRangeException("Deposit amount may not be less than R1000");
             }
 
-                _db.openSavingsAccount(accountId, amountToDeposit);
-            
+            _db.openSavingsAccount(accountId, amountToDeposit);
+
         }
 
         public void withdraw(long accountId, int amountToWithdraw)
         {
 
             var account = _db.GetAccount(accountId);
-            account.Balance -= amountToWithdraw;
 
-            if (account is ICurrentAccount currentAccount)
+            // Savings account requires atleast R1000 left inside
+            long adjustment = -1000;
+
+            if (account is ICurrentAccount currentAccount) 
             {
-                var test = currentAccount.Overdraft;
+                adjustment = currentAccount.Overdraft;
             }
+
+            if (account.Balance + adjustment >= amountToWithdraw)
+            {
+                //withdraw
+                account.Balance -= amountToWithdraw;
+            }
+            else 
+            {
+                // throw exception
+                throw new WithdrawalAmountTooLargeException();
+            }
+
+
+
+            if (account is not ICurrentAccount )
+            {
+                if (amountToWithdraw - account.Balance < 1000)
+                {
+
+                }
+                else
+                {
+                    account.Balance -= amountToWithdraw;
+                }
+            }
+            
         }
+    
 
         // Testing purpose only
         public void Run()
