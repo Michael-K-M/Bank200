@@ -11,11 +11,16 @@ namespace Bank200.Service
         {
             _db = db;
         }
-        public void deposit(long accountId, int amountToDeposit)
+        public void deposit(long accountId, long amountToDeposit)
         {
 
             var account = _db.GetAccount(accountId);
+            if(account == null)
+            {
+                throw new AccountNotFoundException(accountId);
+            }
             account.Balance += amountToDeposit;
+            _db.UpdateAccount(account);
         }
 
         public void openCurrentAccount(long accountId)
@@ -28,14 +33,14 @@ namespace Bank200.Service
         {
             if (amountToDeposit < 1000)
             {
-                throw new ArgumentOutOfRangeException("Deposit amount may not be less than R1000");
+                throw new MinimumDepositException(amountToDeposit);
             }
 
             _db.openSavingsAccount(accountId, amountToDeposit);
 
         }
 
-        public void withdraw(long accountId, int amountToWithdraw)
+        public void withdraw(long accountId, long amountToWithdraw)
         {
 
             var account = _db.GetAccount(accountId);
@@ -52,34 +57,13 @@ namespace Bank200.Service
             {
                 //withdraw
                 account.Balance -= amountToWithdraw;
+                _db.UpdateAccount(account);
             }
             else 
             {
                 // throw exception
                 throw new WithdrawalAmountTooLargeException();
-            }
-
-
-
-            if (account is not ICurrentAccount )
-            {
-                if (amountToWithdraw - account.Balance < 1000)
-                {
-
-                }
-                else
-                {
-                    account.Balance -= amountToWithdraw;
-                }
-            }
-            
-        }
-    
-
-        // Testing purpose only
-        public void Run()
-        {
-            Console.WriteLine("Hello, from the AccountService class!");
+            } 
         }
     }
 }

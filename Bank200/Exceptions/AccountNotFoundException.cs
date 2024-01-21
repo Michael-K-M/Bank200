@@ -5,8 +5,8 @@
 
         public AccountNotFoundException() { }
 
-        public AccountNotFoundException(string CustomerNumber)
-            : base(String.Format("Invalid Customer Number: {0}", CustomerNumber))
+        public AccountNotFoundException(long CustomerNumber)
+            : base(String.Format("Invalid Account Number: {0}", CustomerNumber))
         {
 
         }

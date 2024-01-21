@@ -24,9 +24,14 @@ namespace Bank200.Database
 
         }
 
-        public IAccount GetAccount(long id)
+        public IAccount? GetAccount(long id)
         {
-            return _accountList.First(x => x.Id == id);
+            return _accountList.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void UpdateAccount(IAccount account) 
+        { 
+            // save to database 
         }
 
         public void OpenCurrentAccount(long id)
