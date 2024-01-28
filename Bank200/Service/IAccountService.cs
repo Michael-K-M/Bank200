@@ -6,10 +6,7 @@
         public void openCurrentAccount(long accountId);
         public void withdraw(long accountId, long amountToWithdraw);
 
-        // throw AccountNotFoundException, WithdrawalAmountTooLargeException; 
-
         public void deposit(long accountId, long amountToDeposit);
 
-        // throw AccountNotFoundException;
     }
 }

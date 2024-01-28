@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Bank200.Controllers
 {
 
@@ -19,21 +17,7 @@ namespace Bank200.Controllers
         {
             _accountService = accountService;
         }
-        // GET: api/<BankControler>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
 
-        // GET api/<BankControler>/5
-        [HttpGet("{id}")]
-        public string Get(long id)
-        {
-            return "value";
-        }
-
-        // POST api/<BankControler>
         [HttpPost("SavingsAccount")]
         public HttpResponseMessage PostSavingsAccount([FromBody] IdAndAmount idAndDeposit)
         {
@@ -52,11 +36,6 @@ namespace Bank200.Controllers
 
             }
 
-        }
-        [HttpPost("CurrentAccount")]
-        public void PostCurrentAccount([FromBody] PostCurrentAccount postCurrent)
-        {
-            _accountService.openCurrentAccount(postCurrent.Id);
         }
 
         [HttpPost("Deposit")]
@@ -78,7 +57,6 @@ namespace Bank200.Controllers
             }
         }
 
-        // POST api/<BankControler>
         [HttpPost("SavingsAccountWithdraw")]
         public HttpResponseMessage PostSavingsAccountWithdraw([FromBody] IdAndAmount idAndDeposit)
         {
@@ -99,7 +77,6 @@ namespace Bank200.Controllers
 
         }
 
-        // POST api/<BankControler>
         [HttpPost("SavingsAccountWithdraw")]
         public HttpResponseMessage PostCurrentAccountWithdraw([FromBody] IdAndAmount idAndDeposit)
         {
@@ -119,24 +96,6 @@ namespace Bank200.Controllers
             }
 
         }
-
-        // PUT api/<BankControler>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<BankControler>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-    }
-   
-    public class PostCurrentAccount 
-    {
-        [Required]
-        public long Id { get; set; }
     }
 
     public class IdAndAmount

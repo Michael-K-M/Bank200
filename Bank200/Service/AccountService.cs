@@ -62,7 +62,7 @@ namespace Bank200.Service
             else 
             {
                 // throw exception
-                throw new WithdrawalAmountTooLargeException();
+                throw new WithdrawalAmountTooLargeException(account.CustomerNumber);
             } 
         }
     }
